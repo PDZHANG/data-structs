@@ -2,7 +2,7 @@ package com.vps.linkedlist;
 
 public class LinkedList<E> {
 
-    private Node head;
+    private Node dummyHead;
     private int size;
 
     private class Node{
@@ -34,7 +34,7 @@ public class LinkedList<E> {
 
     public LinkedList(){
         size=0;
-        head=null;
+        dummyHead= new Node(null,null);
     }
 
     public int getSize(){
@@ -45,27 +45,96 @@ public class LinkedList<E> {
 //        Node node = new Node(e);
 //        node.next = head;
 //        head = node;
-        head = new Node(e,head);
-        size++;
+//        dummyHead = new Node(e,dummyHead);
+//        size++;
+        add(0,e);
     }
 
     public void add(int index,E e ){
         if (index < 0 || index > size)
             throw new IllegalArgumentException("index error.");
-        if (index ==0 )
-            addFirst(e);
-        else {
-            Node prev = head;
-            for (int i = 0 ; i<index -1 ;i++)
-                prev = prev.next;
-            prev.next = new Node(e ,prev.next);
-            size++;
-        }
+
+        Node prev = dummyHead;
+        for (int i = 0 ; i<index ;i++)
+            prev = prev.next;
+        prev.next = new Node(e ,prev.next);
+        size++;
+
     }
     public void addLast(E e){
         add(size,e);
     }
 
 
+    public E get(int index){
+
+        Node cur = dummyHead.next;
+        for (int i =0; i <index ; i ++) {
+            cur = cur.next;
+        }
+        return cur.e;
+    }
+    public void set(int index,E e){
+
+        Node cur = dummyHead.next;
+        for (int i =0; i <index ; i ++) {
+            cur = cur.next;
+        }
+        cur.e = e;
+    }
+
+
+    public boolean contains(E e){
+
+        Node cur = dummyHead.next;
+        for (; cur !=null ; cur = cur.next) {
+            if (e.equals(cur.e)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public E getFirst(){
+        return get(0);
+    }
+
+    public E getLast(){
+        return get(size-1);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        Node cur = dummyHead.next;
+        while (cur != null) {
+            sb.append(cur).append("->");
+            cur = cur.next;
+        }
+        sb.append("NULL");
+        return sb.toString();
+    }
+
+
+    public E remove(int index){
+
+        Node prev = dummyHead;
+        for (int i = 0 ; i <index ;i++)
+            prev = prev.next;
+
+        Node retNode = prev.next;
+        prev.next = retNode.next;
+        retNode.next =null;
+
+        return retNode.e;
+    }
+
+    public E removeFirst( ){
+        return remove(0);
+    }
+
+    public E removeLast(){
+        return remove(size-1);
+    }
 
 }
