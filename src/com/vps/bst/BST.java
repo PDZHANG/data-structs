@@ -1,5 +1,12 @@
 package com.vps.bst;
 
+import com.vps.queue.LinkedListQueue;
+import com.vps.queue.Queue;
+import com.vps.stack.ArrayStack;
+import com.vps.stack.LinkedListStack;
+
+import java.util.Stack;
+
 public class BST<E extends Comparable<E>> {
 
     private class Node<E> {
@@ -182,6 +189,44 @@ public class BST<E extends Comparable<E>> {
             res.append("--");
         }
         return res.toString();
+    }
+
+    /**
+     * 非递归实现前序遍历需要使用Stack来帮助实现
+     */
+    public void preOrderInStack(){
+        if(root == null)
+            return;
+        java.util.Stack<Node> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()){
+
+            Node node = stack.pop();
+            System.out.println(node.e);
+            if (node.right!=null){
+                stack.push(node.right);
+            }
+            if (node.left!=null){
+                stack.push(node.left);
+            }
+        }
+    }
+
+    //层序遍历需要使用队列来实现
+
+    public void cxBL(){
+        Queue<Node> queue = new LinkedListQueue<>();
+        queue.enqueue(root);
+        while (!queue.isEmpty()){
+            Node node = queue.dequeue();
+            System.out.println(node.e);
+            if (node.left!=null){
+                queue.enqueue(node.left);
+            }
+            if (node.right!=null){
+                queue.enqueue(node.right);
+            }
+        }
     }
 
 }
